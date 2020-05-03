@@ -10,8 +10,18 @@ p = get_params;
 
 % Initial condition for floating base center of mass x, y, theta,
 % qfronthip, qfrontknee, qbackhip, and qbackknee
-q0 = [0; 0.209+0.18-0.18; 0.05; -pi/4; pi/2; -pi/4; pi/2];
+q0 = [0; 0.209+0.18-0.1; 0.15];
 q0dot = [0; 0; 0; 0; 0; 0; 0];
+
+% Solve for front toe inverse kinematics
+pFtoe0 = [0.25; 0];
+qf = fcn_IKfront(q0, p.params, pFtoe0);
+q0 = [q0; qf];
+
+% Solve for back toe inverse kinematics
+pBtoe0 = [-0.2; 0];
+qb = fcn_IKback(q0, p.params, pBtoe0);
+q0 = [q0; qb];
 ic = [q0; q0dot];
 
 % Reduced spring model parameters for front leg and back leg
@@ -22,25 +32,11 @@ KB = 8000;
 r0B = 0.209+0.18;
 
 %Ploting the robot in the initial configuration:
-plot_robot(ic,p,r0F,r0B);
+figure(1)
+plot_robot(ic,p);
 
 %%
-p = get_params;
 
-q0 = [0; 0.209+0.18-0.1; 0.15];
-q0dot = [0; 0; 0; 0; 0; 0; 0];
-
-qf = fcn_IKfront(q0, p.params, [0.25; 0]);
-q0(4) = qf(1);
-q0(5) = qf(2);
-
-qb = fcn_IKback(q0, p.params, [-0.2; 0]);
-q0(6) = qb(1);
-q0(7) = qb(2);
-ic = [q0; q0dot];
-disp(q0)
-
-plot_robot(ic,p,1,2);
 %%
 
 global g m r0 K theta_TD
