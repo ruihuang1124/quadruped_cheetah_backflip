@@ -3,8 +3,9 @@ function animate_robot(tin,Xin,pFtoein,pBtoein,FFspringin,FBspringin,p)
 %   Detailed explanation goes here
 
 global pFtoe0 pBtoe0
-N = 50;
+N = 100;
 [t,X] = even_sample(tin,Xin,N);
+% Seems to have issue interpolating steps with rotating frame
 [t,pFtoe] = even_sample(tin,pFtoein,N);
 [t,pBtoe] = even_sample(tin,pBtoein,N);
 [t,FFspring] = even_sample(tin,FFspringin,N);
