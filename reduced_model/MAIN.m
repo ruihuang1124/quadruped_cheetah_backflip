@@ -21,9 +21,9 @@ pBtoe0 = [-0.19; 0];
 
 % Reduced spring model parameters for front leg and back leg
 global KF r0F thetaF_TD KB r0B thetaB_TD
-KF = 6100;  
+KF = 6400;  
 r0F = 0.209+0.18-0.1;
-thetaF_TD = 0.5;
+thetaF_TD = 0.7;
 
 KB = 700;
 r0B = 0.209+0.18-0.1;

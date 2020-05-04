@@ -14,6 +14,9 @@ IB = params(8);
 pFH = fcn_pFH(X,params);
 r = sqrt((pFH(1)-pFtoeTD(1))^2 + (pFH(2)-pFtoeTD(2))^2);
 FFspring = (r0F-r)*KF;
+if FFspring < 0
+    FFspring = 0;
+end
 FFspringx = (pFH(1)-pFtoeTD(1))/r*FFspring;
 FFspringy = (pFH(2)-pFtoeTD(2))/r*FFspring;
 FBspring = 0;
