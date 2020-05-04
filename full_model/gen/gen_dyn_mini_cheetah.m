@@ -50,10 +50,10 @@ m_list_qdot = {
     'xdot' 'qdot(1)';
     'ydot' 'qdot(2)';
     'thetadot' 'qdot(3)';
-    'thetadot' 'qdot(4)';
-    'thetadot' 'qdot(5)';
-    'thetadot' 'qdot(6)';
-    'thetadot' 'qdot(7)'};
+    'qfhdot' 'qdot(4)';
+    'qfkdot' 'qdot(5)';
+    'qbhdot' 'qdot(6)';
+    'qbkdot' 'qdot(7)'};
 
 
 %% --- variables ---
@@ -215,13 +215,13 @@ JdotFtoe = sym('JdotFtoe',size(JFtoe));
 for ii = 1:size(JFtoe,2)
     JdotFtoe(:,ii) = jacobian(JFtoe(:,ii),q) * qdot;
 end
-write_fcn_m('fcn_JdotFtoe.m',{'q', 'p'},[m_list_q;m_list_params],{JdotFtoe,'JdotFtoe'});
+write_fcn_m('fcn_JdotFtoe.m',{'q','qdot', 'p'},[m_list_q;m_list_qdot;m_list_params],{JdotFtoe,'JdotFtoe'});
 
 JdotBtoe = sym('JdotBtoe',size(JBtoe));
 for ii = 1:size(JBtoe,2)
     JdotBtoe(:,ii) = jacobian(JBtoe(:,ii),q) * qdot;
 end
-write_fcn_m('fcn_JdotBtoe.m',{'q', 'p'},[m_list_q;m_list_params],{JdotBtoe,'JdotBtoe'});
+write_fcn_m('fcn_JdotBtoe.m',{'q','qdot', 'p'},[m_list_q;m_list_qdot;m_list_params],{JdotBtoe,'JdotBtoe'});
 
 % Inverse Kinematics for front hip and front knee
 % Assume we know the coordinates of floating base and toe, solve for joints

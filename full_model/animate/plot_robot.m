@@ -25,5 +25,6 @@ ylabel('Y_0 [m]')
 xlim([-1, 1])
 ylim([-1, 1])
 
+hold off
 end
 
