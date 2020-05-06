@@ -1,10 +1,14 @@
-function animate_robot(tin,Xin,p)
+function animate_robot(tin,Xin,uin,GRFFin,GRFBin,p)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 
 N = 100;
 [t,X] = even_sample(tin,Xin,N);
+[t,uin] = even_sample(tin,uin,N);
+[t,GRFFin] = even_sample(tin,GRFFin,N);
+[t,GRFBin] = even_sample(tin,GRFBin,N);
 nt = length(t);
+
 
 f = figure;
 v = VideoWriter('video.avi');
@@ -19,6 +23,18 @@ for ii = 1:nt
     title(['Time =' num2str(t(ii),'%6.2f') 's'])
     pause(0.0001)
     
+    subplot(2,3,3)
+    plot(t(1:ii),uin(1:ii,:))
+    title(['torque'])
+    legend({'taufh','taufk','taubh','taubk'},'Location','southeast')
+    
+    subplot(2,3,6)
+    plot(t(1:ii),GRFFin(1:ii,:))
+    hold on
+    plot(t(1:ii),GRFBin(1:ii,:))
+    title(['Front force'])
+    legend({'GRFFx','GRFFy', 'GRFBx', 'GRFBy'},'Location','northeast')
+    hold off
     
     F = getframe(f);
     drawnow
