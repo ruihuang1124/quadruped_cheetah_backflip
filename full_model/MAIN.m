@@ -70,16 +70,22 @@ for tstep = 2:nt
     GRFBout = [GRFBout; GRFB'];
 end
 
-animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)
-
 %% Aerial phase
 options = odeset('Events',@(t,X)front_touch_down(t,X,p),'MaxStep',1e-3);
-[t,X] = ode45(@(t,X)dyn_aerial(t,X,p),[tout(end) tfinal],Xout(end,:),options);
+[t,X] = ode45(@(t,X)dyn_aerial(t,X,p),[tout(end) tfinal],Xout(end,:));
 
 % log
 nt = length(t);
 tout = [tout; t(2:nt)];
 Xout = [Xout; X(2:nt,:)];
+for tstep = 2:nt
+    [~,u,GRFF,GRFB] = dyn_back_stance(t(tstep),X(tstep,:)',p);
+    uout = [uout; u'];
+    GRFFout = [GRFFout; GRFF'];
+    GRFBout = [GRFBout; GRFB'];
+end
+
+animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)
 
 % Impact mapping
 
