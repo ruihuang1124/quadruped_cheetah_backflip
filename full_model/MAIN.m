@@ -31,7 +31,7 @@ plot_robot(ic,p);
 
 %%
 tstart = 0;
-tfinal = 10;
+tfinal = 1;
 tout = tstart;
 Xout = ic';
 uout = [0;0;0;0]';
@@ -79,7 +79,7 @@ nt = length(t);
 tout = [tout; t(2:nt)];
 Xout = [Xout; X(2:nt,:)];
 for tstep = 2:nt
-    [~,u,GRFF,GRFB] = dyn_back_stance(t(tstep),X(tstep,:)',p);
+    [~,u,GRFF,GRFB] = dyn_aerial(t(tstep),X(tstep,:)',p);
     uout = [uout; u'];
     GRFFout = [GRFFout; GRFF'];
     GRFBout = [GRFBout; GRFB'];
