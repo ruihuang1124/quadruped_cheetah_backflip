@@ -85,6 +85,8 @@ for tstep = 2:nt
     GRFBout = [GRFBout; GRFB'];
 end
 
+animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)
+
 options = odeset('Events',@(t,X)back_touch_down(t,X,p),'MaxStep',1e-3);
 [t,X] = ode45(@(t,X)dyn_front_stance(t,X,p),[tout(end) tfinal],Xout(end,:),options);
 
@@ -98,5 +100,3 @@ for tstep = 2:nt
     GRFFout = [GRFFout; GRFF'];
     GRFBout = [GRFBout; GRFB'];
 end
-
-animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)

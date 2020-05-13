@@ -25,14 +25,14 @@ for ii = 1:nt
     
     subplot(2,3,3)
     plot(t(1:ii),uin(1:ii,:))
-    title(['torque'])
+    title(['Torque profile'])
     legend({'taufh','taufk','taubh','taubk'},'Location','southeast')
     
     subplot(2,3,6)
     plot(t(1:ii),GRFFin(1:ii,:))
     hold on
     plot(t(1:ii),GRFBin(1:ii,:))
-    title(['Front force'])
+    title(['Force profile'])
     legend({'GRFFx','GRFFy', 'GRFBx', 'GRFBy'},'Location','northeast')
     hold off
     
