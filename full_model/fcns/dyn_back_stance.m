@@ -36,6 +36,19 @@ qfk_TD = 0.5*pi;
 ufh = 50*(qfh_TD-q(4)) + 2*(0-qdot(4));
 ufk = 50*(qfk_TD-q(5)) + 2*(0-qdot(5));
 
+if ufh > 15
+    ufh = 15;
+end
+if ufh < -15
+    ufh = -15;
+end
+if ufk > 15
+    ufk = 15;
+end
+if ufk < -15
+    ufk = -15;
+end
+
 u = [ufh;ufk;uB(6);uB(7)];
 
 % Solve the linear system:

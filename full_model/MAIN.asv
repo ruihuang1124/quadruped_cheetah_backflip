@@ -85,6 +85,9 @@ for tstep = 2:nt
     GRFBout = [GRFBout; GRFB'];
 end
 
+animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)
+
+% Front stance phase
 options = odeset('Events',@(t,X)back_touch_down(t,X,p),'MaxStep',1e-3);
 [t,X] = ode45(@(t,X)dyn_front_stance(t,X,p),[tout(end) tfinal],Xout(end,:),options);
 
@@ -92,11 +95,6 @@ options = odeset('Events',@(t,X)back_touch_down(t,X,p),'MaxStep',1e-3);
 nt = length(t);
 tout = [tout; t(2:nt)];
 Xout = [Xout; X(2:nt,:)];
-for tstep = 2:nt
-    [~,u,GRFF,GRFB] = dyn_front_stance(t(tstep),X(tstep,:)',p);
-    uout = [uout; u'];
-    GRFFout = [GRFFout; GRFF'];
-    GRFBout = [GRFBout; GRFB'];
-end
 
-animate_robot(tout,Xout,uout,GRFFout,GRFBout,p)
+%%
+animate_robot(tout,Xout,pFtoeout,pBtoeout,FFspringout,FBspringout,p);

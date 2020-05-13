@@ -23,8 +23,8 @@ JdotFtoe = fcn_JdotFtoe(q,qdot,params);
 
 %% Controller
 
-qfh_TD = -1/3*pi; % Desired touchdown angle
-qfk_TD = 0.5*pi;
+qfh_TD = -1/4*pi; % Desired touchdown angle
+qfk_TD = 0.6*pi;
 
 ufh = 50*(qfh_TD-q(4)) + 2*(0-qdot(4));
 ufk = 50*(qfk_TD-q(5)) + 2*(0-qdot(5));
@@ -34,6 +34,31 @@ qbk_TD = 0.5*pi;
 
 ubh = 50*(qbh_TD-q(6)) + 2*(0-qdot(6));
 ubk = 50*(qbk_TD-q(7)) + 2*(0-qdot(7));
+
+if ufh > 15
+    ufh = 15;
+end
+if ufh < -15
+    ufh = -15;
+end
+if ufk > 15
+    ufk = 15;
+end
+if ufk < -15
+    ufk = -15;
+end
+if ubh > 15
+    ubh = 15;
+end
+if ubh < -15
+    ubh = -15;
+end
+if ubk > 15
+    ubk = 15;
+end
+if ubk < -15
+    ubk = -15;
+end
 
 u = [ufh;ufk;ubh;ubk];
 

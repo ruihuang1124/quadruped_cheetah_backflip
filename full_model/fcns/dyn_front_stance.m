@@ -1,5 +1,5 @@
-function [dXdt,u,GRFF,GRFB] = dyn_double_stance(t,X,p)
-%UNTITLED2 Summary of this function goes here
+function [dXdt,u,GRFF,GRFB] = dyn_front_stance(t,X,p)
+%UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 t
 
@@ -25,35 +25,48 @@ JdotFtoe = fcn_JdotFtoe(q,qdot,params);
 % Feedforward force
 s = t / 0.3;        % stance phase parametrization s = [0, 1]
 % Force profile using Bezier polynomials
-FFy = polyval_bz([130 130 130 130 130], s);
+FFy = polyval_bz([50 50 50 0 0], s);
 FFx = polyval_bz([-10 -10 0 0 0], s);
 
-FBy = polyval_bz([50 30 0 0 0], s);
-FBx = polyval_bz([0 0 0 0 0], s);
-
 uF = -JFtoe'*[FFx; FFy];
-uB = -JBtoe'*[FBx; FBy];
-u = [uF(4);uF(5);uB(6);uB(7)];
+
+qbh_TD = -1/3*pi; % Desired touchdown angle
+qbk_TD = 0.5*pi;
+
+ubh = 50*(qbh_TD-q(6)) + 2*(0-qdot(6));
+ubk = 50*(qbk_TD-q(7)) + 2*(0-qdot(7));
+
+if ubh > 15
+    ubh = 15;
+end
+if ubh < -15
+    ubh = -15;
+end
+if ubk > 15
+    ubk = 15;
+end
+if ubk < -15
+    ubk = -15;
+end
+
+u = [uF(4);uF(5);ubh;ubk];
 
 % Solve the linear system:
 % De * ddq + Ce * dq + Ge = JF' * FGRF + JB' * BGRF + Be * u (7 eqns)
-% Jhc * ddq + dJhc * dq = 0 (4 eqns)
-% [De  -JFtoe' -JBtoe'] * [ddq ] = [Be*u - Ce*dq - Ge]
-% [JFtoe  0       0   ]   [GRFF]   [-JdotFtoe*dq     ]
-% [JBtoe  0       0   ]   [GRFB]   [-JdotBtoe*dq     ]
+% Jhc * ddq + dJhc * dq = 0 (2 eqns)
+% [De  -JFtoe'] * [ddq ] = [Be*u - Ce*dq - Ge]
+% [JFtoe  0   ]   [GRFF]   [-JdotFtoe*dq     ]
 % unknowns: ddq(7x1), GRF(4x1) 
 % control: u(4x1)
-Amat = [De -JFtoe' -JBtoe'; 
-        JFtoe zeros(2,4);
-        JBtoe zeros(2,4)];
+Amat = [De -JFtoe'; 
+        JFtoe zeros(2,2)];
 bvec = [Be*u - Ce*qdot - Ge; 
-        -JdotFtoe*qdot;
-        -JdotBtoe*qdot];
+        -JdotFtoe*qdot];
 
 ddqu = Amat \ bvec;
 ddq = ddqu(1:7);
+GRFB = [0;0];
 GRFF = ddqu(8:9);
-GRFB = ddqu(10:11);
 
 FFy = GRFF(2);
 FBy = GRFB(2);
