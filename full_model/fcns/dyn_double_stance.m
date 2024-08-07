@@ -25,7 +25,7 @@ JdotFtoe = fcn_JdotFtoe(q,qdot,params);
 % Feedforward force
 s = t / 0.3;        % stance phase parametrization s = [0, 1]
 % Force profile using Bezier polynomials
-FFy = polyval_bz([130 130 130 130 130], s);
+FFy = polyval_bz([140 140 140 140 140], s);
 FFx = polyval_bz([-10 -10 0 0 0], s);
 
 FBy = polyval_bz([50 30 0 0 0], s);
