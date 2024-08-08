@@ -12,7 +12,7 @@ LH = 0.209;
 LK = 0.18;
 
 % Link mass for body, thigh, and shank
-MB = 3.3/2; %because we are only using half of the legs
+MB = 3.84/2; %because we are only using half of the legs
 MH = 0.634;
 MK = 0.064;
 
